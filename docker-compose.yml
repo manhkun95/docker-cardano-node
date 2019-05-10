@@ -1,0 +1,15 @@
+
+version: '2'
+
+services:
+  cardano-sl:
+    container_name: cardano-sl
+    image: gvsmraju/cardano:1.2.1
+    user: cardano
+    working_dir: /home/cardano/cardano-sl/
+    command: ./connect-explorer-to-testnet
+    volumes:
+      - ./cardano/db:/home/cardano/cardano-sl/state-explorer-testnet/db
+    ports:
+      - 8090:8090
+      - 8101:8101
