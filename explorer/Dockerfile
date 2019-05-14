@@ -12,7 +12,7 @@ RUN apt-get update &&\
     echo 'sandbox = false' >> /etc/nix/nix.conf &&\
     su - cardano -c 'git clone https://github.com/input-output-hk/cardano-sl.git /home/cardano/cardano-sl'
 
-CMD /bin/bash -l
+RUN /bin/bash -l
 USER cardano
 ENV USER cardano
 
@@ -22,6 +22,7 @@ WORKDIR /home/cardano/cardano-sl
 RUN git checkout master
 
 RUN . /home/cardano/.nix-profile/etc/profile.d/nix.sh &&\
+   sed -i "s|defaultPageSize = 10|defaultPageSize = 1 |g" explorer/src/Pos/Explorer/DB.hs &&\
    nix-build -A connectScripts.testnet.explorer -o connect-explorer-to-testnet
 
 EXPOSE 8100
