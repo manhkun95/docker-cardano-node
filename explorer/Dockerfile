@@ -10,14 +10,16 @@ RUN apt-get update &&\
     echo trusted-substituters = >> /etc/nix/nix.conf &&\
     echo trusted-public-keys  = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= >> /etc/nix/nix.conf &&\
     echo 'sandbox = false' >> /etc/nix/nix.conf &&\
-    su - cardano -c 'git clone https://github.com/input-output-hk/cardano-sl.git /home/cardano/cardano-sl'
+    su - cardano -c 'git clone https://github.com/input-output-hk/cardano-sl.git /home/cardano/cardano-sl' &&\
+    chmod -R 0755 /home/cardano/cardano-sl &&\
+    chown cardano /home/cardano/cardano-sl
 
-RUN /bin/bash -l
+# RUN /bin/bash -l
 USER cardano
 ENV USER cardano
 
 RUN curl https://nixos.org/nix/install | sh
-
+   
 WORKDIR /home/cardano/cardano-sl
 RUN git checkout master
 

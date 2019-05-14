@@ -3,12 +3,14 @@ version: "3"
 services:
   cardano-explorer:
     build: ./explorer
+    image: cardano-explorer:1.0
     user: cardano
     volumes:
       - ./cardano-explorer/db:/home/cardano/cardano-sl/state-explorer-testnet/db
     ports:
       - 8100:8100
-  cardano-http-bridge:
-    build: ./cardano-http-bridge
-    ports:
-      - 8080:8080
+  # cardano-http-bridge:
+  #   build: ./cardano-http-bridge
+  #   image: cardano-http-bridge:1.0
+  #   ports:
+  #     - 8080:8080
