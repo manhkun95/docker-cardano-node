@@ -2,14 +2,22 @@
 
 FROM rust:1.34
 
-RUN git clone https://github.com/input-output-hk/cardano-http-bridge.git /usr/src/cardano-http-bridge
-WORKDIR /usr/src/cardano-http-bridge
+RUN useradd -ms /bin/bash cardano &&\
+    git clone https://github.com/input-output-hk/cardano-http-bridge.git /home/cardano/cardano-http-bridge
+
+USER cardano
+WORKDIR /home/cardano/cardano-http-bridge
 
 RUN git submodule update --init
 RUN cargo run --release; exit 0
 
 EXPOSE 8080
 CMD target/release/cardano-http-bridge start --port=8080 --template=testnet
+
+# error: could not lock config file .git/config: Permission denied
+# fatal: Failed to register url for submodule path 'cardano-deps'
+
+# ==========================================================================================================================
 
 # # RUN FROM UBUNTU
 
