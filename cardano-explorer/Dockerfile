@@ -1,8 +1,5 @@
 FROM nixos/nix
 
-RUN nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-RUN nix-channel --update
-
 RUN apk add --no-cache bash git &&\
     echo substituters = https://cache.nixos.org https://hydra.iohk.io >> /etc/nix/nix.conf &&\
     echo trusted-substituters = >> /etc/nix/nix.conf &&\

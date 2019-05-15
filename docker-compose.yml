@@ -2,15 +2,26 @@
 version: "3"
 services:
   cardano-explorer:
-    build: ./explorer
+    build: ./cardano-explorer
     image: cardano-explorer:1.0
-    user: cardano
+    user: root
+    working_dir: /home/cardano/cardano-sl
+    command: ./connect-explorer-to-testnet
     volumes:
-      - ./cardano-explorer/db:/home/cardano/cardano-sl/state-explorer-testnet/db
+      - cardano-explorer:/home/cardano/cardano-sl/state-explorer-testnet/db
     ports:
       - 8100:8100
   cardano-http-bridge:
     build: ./cardano-http-bridge
     image: cardano-http-bridge:1.0
+    user: root
+    working_dir: /home/cardano/cardano-http-bridge
+    command: target/release/cardano-http-bridge start --port=8080 --template=testnet --networks-dir /home/cardano/cardano-http-bridge/data
+    volumes:
+      - cardano-http-bridge:/home/cardano/cardano-http-bridge/data
     ports:
       - 8080:8080
+
+volumes:
+  cardano-explorer:
+  cardano-http-bridge:
